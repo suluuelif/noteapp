@@ -2,20 +2,17 @@
   text-align: center;
   margin-top: 50px;
   font-family: Arial, sans-serif;
-}
-
-.input-container {
+  }
+  .input-container {
   margin-bottom: 20px;
-}
-
-input {
+  }
+  input {
   padding: 10px;
   font-size: 16px;
   width: 300px;
   margin-right: 10px;
-}
-
-button {
+  }
+  .input-container #category {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
@@ -23,19 +20,22 @@ button {
   color: white;
   border: none;
   border-radius: 5px;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-.notes-container {
+  margin-right: 10px;
+  position: relative;
+  }
+  .input-container #category::after {
+  content: '';
+  position: absolute;
+  right: 5px;
+  /* Adjusted to create a tiny gap */
+  pointer-events: none;
+  }
+  .notes-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.note {
+  }
+  .note {
   background: #f9f9f9;
   padding: 10px 20px;
   margin: 10px 0;
@@ -43,18 +43,36 @@ button:hover {
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 400px;
-}
-
-.note button {
+  }
+  .note-buttons {
+  display: flex;
+  gap: 10px;
+  }
+  .note button:first-of-type {
+  background-color: green;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  }
+  .note button {
   background-color: #dc3545;
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
   color: white;
   cursor: pointer;
-}
-
-.note button:hover {
-  background-color: #c82333;
-}
+  }
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+   }
+     
