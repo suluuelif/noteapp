@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import './App.css';
 
@@ -8,9 +9,16 @@ function App() {
   const [category, setCategory] = useState('');
 //**
   const [filterCategory, setFilterCategory] = useState('All');
+  const[charCount, setCharCount] = useState(0);
+  const[priotize, setPriority] = useState(false);
+
 
   const handleInputChange = (e) => {
-    setInput(e.target.value);
+    const inputValue = e.target.value;
+    if (inputValue.length <= 20) {
+      setInput(inputValue);
+      setCharCount(inputValue.length);
+    }
   };
 
   const handleCategoryChange = (e) => {
@@ -26,6 +34,7 @@ function App() {
       const newNote = {
         text: input.trim(),
         category: category.trim(),
+        count: charCount
       };
 
       if (editIndex !== null) {
@@ -40,7 +49,8 @@ function App() {
         }
 
       setInput('');
-      setCategory('');
+      setCategory('Category');
+      setCharCount(0);
     }
   };
 
@@ -67,7 +77,7 @@ function App() {
     setInput(notes[index]);
     setCategory(notes[index].category);
     setEditIndex(index);
-
+    setCharCount(notes[index].text.length);
   };
 
 
@@ -90,7 +100,11 @@ function App() {
           <option value="Others">Others</option>
         </select>
 
-        <button onClick={handleAddNote}>{editIndex!==null? 'Update Note':'Add Note'}</button>
+        <button onClick={handleAddNote} disabled={input.length === 20}>
+          {editIndex!==null? 'Update Note':'Add Note'}
+        </button>
+        <p>Character Count: {charCount}</p>
+         {input.length === 20 && <p style={{ color: 'red' }}>Character limit reached!</p>}
       </div>
        
        <div className="filter-container">
@@ -110,7 +124,7 @@ function App() {
           filteredNotes.map((note, index) => (
             <div className="note" key={index}>
               <p>
-                {note.text} - <em>{note.category}</em>
+                {note.text} - <em>{note.category} ({note.count})</em>
                 </p>
               <div className='note-buttons'>
                 <button onClick={() => handleEditNote(index)}>Edit</button>
