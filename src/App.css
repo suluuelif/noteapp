@@ -15,7 +15,7 @@ input {
   margin-right: 10px;
 }
 
-.input-container #category {
+.input-container #category-priority {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
@@ -27,7 +27,7 @@ input {
   position: relative;
 }
 
-.input-container #category::after {
+.input-container #category-priority::after {
   content: '▼';
   position: absolute;
   right: 5px;
@@ -49,11 +49,19 @@ button:hover {
   background-color: #0056b3;
 }
 
+.filter-sort-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  gap: 60px;
+  margin-bottom: 20px; 
+}
+
 .filter-container {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-right: 20px;
 }
 
 .filter-container p {
@@ -78,6 +86,8 @@ button:hover {
   right: 5px;
   /* Adjusted to create a tiny gap */
   pointer-events: none;
+  justify-content: center;
+  align-items: center;
 }
 
 .notes-container {
@@ -87,15 +97,28 @@ button:hover {
 }
 
 .note {
-  background: #f9f9f9;
-  padding: 10px 20px;
+  padding: 10px;
   margin: 10px 0;
-  border: 1px solid #ccc;
   border-radius: 5px;
+  color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 400px;
+}
+
+.low-priority {
+  background-color: rgb(118, 153, 118);
+}
+
+.medium-priority {
+  background-color: rgb(171, 171, 120);
+  color: black;
+  /* Adjust text color for better contrast */
+}
+
+.high-priority {
+  background-color: rgb(137, 92, 92);
 }
 
 .note-buttons {

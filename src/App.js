@@ -10,7 +10,8 @@ function App() {
 //**
   const [filterCategory, setFilterCategory] = useState('All');
   const[charCount, setCharCount] = useState(0);
-  const[priotize, setPriority] = useState(false);
+  const[priority, setPriority] = useState('Priority');
+  const [sortOrder, setSortOrder] = useState('default');
 
 
   const handleInputChange = (e) => {
@@ -19,6 +20,10 @@ function App() {
       setInput(inputValue);
       setCharCount(inputValue.length);
     }
+  };
+
+  const handlePriorityChange = (e) => {
+    setPriority(e.target.value);
   };
 
   const handleCategoryChange = (e) => {
@@ -34,7 +39,8 @@ function App() {
       const newNote = {
         text: input.trim(),
         category: category.trim(),
-        count: charCount
+        count: charCount,
+        priority: priority
       };
 
       if (editIndex !== null) {
@@ -51,6 +57,7 @@ function App() {
       setInput('');
       setCategory('Category');
       setCharCount(0);
+      setPriority('Priority');
     }
   };
 
@@ -78,10 +85,23 @@ function App() {
     setCategory(notes[index].category);
     setEditIndex(index);
     setCharCount(notes[index].text.length);
+    setPriority(notes[index].priority);
   };
 
 
   const filteredNotes = filterCategory === 'All' ? notes : notes.filter(note => note.category === filterCategory);
+
+  const sortedNotes = [...filteredNotes].sort((a, b) => {
+    if (sortOrder === 'high-to-low') {
+      const priorityOrder = { High: 3, Medium: 2, Low: 1 };
+      return priorityOrder[b.priority] - priorityOrder[a.priority];
+    } else if (sortOrder === 'low-to-high') {
+      const priorityOrder = { High: 3, Medium: 2, Low: 1 };
+      return priorityOrder[a.priority] - priorityOrder[b.priority];
+    } else {
+      return 0;
+    }
+  });
 
   return (
     <div className="App">
@@ -93,11 +113,18 @@ function App() {
           onChange={handleInputChange}
           placeholder="Type your note here"
         />
-        <select name = "category" id = "category" onChange = {handleCategoryChange}>
+        <select name = "category" id = "category-priority" onChange = {handleCategoryChange}>
           <option value="Category">Category</option>
           <option value="Work">Work</option>
           <option value="School">School</option>
           <option value="Others">Others</option>
+        </select>
+        
+        <select name = "Priority" id = "category-priority" onChange = {handlePriorityChange}>
+          <option value="Priority">Priority</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
         </select>
 
         <button onClick={handleAddNote} disabled={input.length === 20}>
@@ -115,14 +142,30 @@ function App() {
           <option value="School">School</option>
           <option value="Others">Others</option>
         </select>
+        <label>Sort by Priority: </label>
+        <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+          <option value="default">Default</option>
+          <option value="high-to-low">High to Low</option>
+          <option value="low-to-high">Low to High</option>
+        </select>
       </div>
 
       <div className="notes-container">
         {filteredNotes.length === 0 ? (
           <p>No notes yet</p>
         ) : (
-          filteredNotes.map((note, index) => (
-            <div className="note" key={index}>
+          sortedNotes.map((note, index) => (
+            <div 
+            className={`note ${
+              note.priority === 'Low' 
+              ? 'low-priority' 
+              : note.priority === 'Medium' 
+              ? 'medium-priority' 
+              : note.priority === 'High' 
+              ? 'high-priority' 
+              : ''
+            }`} 
+            key={index}>
               <p>
                 {note.text} - <em>{note.category} ({note.count})</em>
                 </p>
